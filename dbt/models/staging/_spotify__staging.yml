@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: stg_spotify__streaming_history
+    description: "Light cleanup pass over the raw streaming history: blank strings nulled out, text fields trimmed so they're safe to use as dimension join/group keys."
+    columns:
+      - name: stream_source_id
+        description: "Primary key from the source table"
+        data_tests:
+          - unique
+          - not_null

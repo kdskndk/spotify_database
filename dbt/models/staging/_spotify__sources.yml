@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: spotify
+    schema: source_data
+    description: "Raw Spotify streaming history, loaded from full_output.csv via load_csv.py"
+    tables:
+      - name: spotify_streaming_history
+        description: "One row per streaming event, as exported by Spotify's extended streaming history"
+        loaded_at_field: played_at
+        columns:
+          - name: id
+            description: "Auto-incrementing source row id"
+            data_tests:
+              - unique
+              - not_null
+          - name: played_at
+            description: "Timestamp the stream started"
+            data_tests:
+              - not_null
+          - name: ms_played
+            description: "Milliseconds of the track that were played -- the fact measure"

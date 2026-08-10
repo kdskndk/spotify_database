@@ -1,0 +1,65 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: spotify_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: spotify
+      POSTGRES_PASSWORD: spotify_pw
+      POSTGRES_DB: spotify_history
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U spotify -d spotify_history"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  python:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spotify_python
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGDATABASE: spotify_history
+      PGUSER: spotify
+      PGPASSWORD: spotify_pw
+    volumes:
+      - .:/app
+    # keeps the container running so you can `docker compose exec python bash` in
+    tty: true
+    stdin_open: true
+
+  dbt:
+    build:
+      context: ./dbt
+      dockerfile: Dockerfile
+    container_name: spotify_dbt
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGDATABASE: spotify_history
+      PGUSER: spotify
+      PGPASSWORD: spotify_pw
+      DBT_PROFILES_DIR: /app
+    volumes:
+      - ./dbt:/app
+    ports:
+      - "8080:8080"   # for `dbt docs serve`
+    # keeps the container running so you can `docker compose exec dbt bash` in
+    tty: true
+    stdin_open: true
+
+volumes:
+  pgdata:
+

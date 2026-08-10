@@ -1,0 +1,93 @@
+version: 2
+
+models:
+  - name: dim_artists
+    description: "One row per unique artist."
+    columns:
+      - name: artist_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_albums
+    description: "One row per unique (album, artist) pair."
+    columns:
+      - name: album_id
+        data_tests:
+          - unique
+          - not_null
+      - name: artist_id
+        data_tests:
+          - relationships:
+              to: ref('dim_artists')
+              field: artist_id
+
+  - name: dim_tracks
+    description: "One row per unique track (keyed off Spotify's track URI)."
+    columns:
+      - name: track_id
+        data_tests:
+          - unique
+          - not_null
+      - name: album_id
+        data_tests:
+          - relationships:
+              to: ref('dim_albums')
+              field: album_id
+
+  - name: dim_platform
+    description: "One row per unique playback platform."
+    columns:
+      - name: platform_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_reason
+    description: "One row per unique reason_start/reason_end value, shared across both since the value sets overlap."
+    columns:
+      - name: reason_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_date
+    description: "Calendar date spine, 2005-01-01 through 2031-01-01."
+    columns:
+      - name: date_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: fact_streams
+    description: "One row per streaming event. ms_played is the measure; all other dimension attributes are foreign keys."
+    columns:
+      - name: stream_id
+        data_tests:
+          - unique
+          - not_null
+      - name: track_id
+        data_tests:
+          - relationships:
+              to: ref('dim_tracks')
+              field: track_id
+      - name: platform_id
+        data_tests:
+          - relationships:
+              to: ref('dim_platform')
+              field: platform_id
+      - name: reason_start_id
+        data_tests:
+          - relationships:
+              to: ref('dim_reason')
+              field: reason_id
+      - name: reason_end_id
+        data_tests:
+          - relationships:
+              to: ref('dim_reason')
+              field: reason_id
+      - name: date_id
+        data_tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_id

@@ -1,0 +1,25 @@
+name: 'spotify_analytics'
+version: '1.0.0'
+config-version: 2
+
+profile: 'spotify_analytics'
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  spotify_analytics:
+    staging:
+      +materialized: view
+      +schema: staging
+    marts:
+      core:
+        +materialized: table
+        +schema: marts

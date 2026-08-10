@@ -1,0 +1,18 @@
+# Personal streaming data - not for version control
+full_output.csv
+data/*.json
+
+# dbt
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+dbt/.user.yml
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local Claude Code permissions (environment-specific, not project config)
+.claude/settings.local.json

@@ -1,0 +1,12 @@
+spotify_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('PGHOST', 'postgres') }}"
+      port: "{{ env_var('PGPORT', '5432') | as_number }}"
+      user: "{{ env_var('PGUSER', 'spotify') }}"
+      pass: "{{ env_var('PGPASSWORD', 'spotify_pw') }}"
+      dbname: "{{ env_var('PGDATABASE', 'spotify_history') }}"
+      schema: analytics
+      threads: 4
