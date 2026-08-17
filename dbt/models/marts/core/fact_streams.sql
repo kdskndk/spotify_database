@@ -1,3 +1,11 @@
+{{ config(
+    indexes=[
+      {'columns': ['played_at']},
+      {'columns': ['track_id']},
+    ],
+    post_hook="ANALYZE {{ this }}"
+) }}
+
 with streams as (
 
     select * from {{ ref('stg_spotify__streaming_history') }}

@@ -1,3 +1,9 @@
+{{ config(
+    indexes=[
+      {'columns': ['album_id'], 'unique': True},
+    ]
+) }}
+
 with albums as (
 
     select distinct

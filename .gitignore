@@ -14,5 +14,11 @@ __pycache__/
 .venv/
 venv/
 
+# Secrets (Discogs API token, etc.)
+.env
+.env.local
+.env.*.local
+!.env.example
+
 # Local Claude Code permissions (environment-specific, not project config)
 .claude/settings.local.json

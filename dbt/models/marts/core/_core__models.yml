@@ -59,6 +59,28 @@ models:
           - unique
           - not_null
 
+  - name: dim_genres
+    description: "One row per unique (genre_type, genre_value) pair sourced from the Discogs API -- e.g. genre_type='genre', genre_value='Electronic' or genre_type='style', genre_value='Deep House'."
+    columns:
+      - name: genre_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: bridge_album_genres
+    description: "Many-to-many bridge between albums and genres/styles, since an album can have more than one and a genre/style spans many albums."
+    columns:
+      - name: album_id
+        data_tests:
+          - relationships:
+              to: ref('dim_albums')
+              field: album_id
+      - name: genre_id
+        data_tests:
+          - relationships:
+              to: ref('dim_genres')
+              field: genre_id
+
   - name: fact_streams
     description: "One row per streaming event. ms_played is the measure; all other dimension attributes are foreign keys."
     columns:

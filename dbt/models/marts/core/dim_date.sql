@@ -1,3 +1,9 @@
+{{ config(
+    indexes=[
+      {'columns': ['date_id'], 'unique': True},
+    ]
+) }}
+
 with spine as (
 
     {{ dbt_utils.date_spine(

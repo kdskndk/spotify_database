@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: stg_discogs__album_genres
+    description: "One row per (album, genre_type, genre_value) pair, unnested from the genres/styles arrays returned by the Discogs API. Only includes albums with a successful Discogs match."
+    columns:
+      - name: genre_type
+        description: "'genre' or 'style' -- which Discogs field this value came from"
+        data_tests:
+          - not_null
+      - name: genre_value
+        data_tests:
+          - not_null

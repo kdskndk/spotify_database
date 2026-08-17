@@ -4,3 +4,4 @@ pandas
 matplotlib
 spotipy
 psycopg2-binary
+python3-discogs-client

@@ -31,6 +31,8 @@ services:
       PGDATABASE: spotify_history
       PGUSER: spotify
       PGPASSWORD: spotify_pw
+      DISCOGS_TOKEN: ${DISCOGS_TOKEN}
+      DISCOGS_USER_AGENT: spotify_analytics/1.0
     volumes:
       - .:/app
     # keeps the container running so you can `docker compose exec python bash` in

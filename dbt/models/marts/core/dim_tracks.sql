@@ -5,6 +5,12 @@
 -- recently played -- to keep track_uri unique in this table and avoid fan-out when
 -- fact_streams joins back on it.
 
+{{ config(
+    indexes=[
+      {'columns': ['track_id'], 'unique': True},
+    ]
+) }}
+
 with tracks as (
 
     select

@@ -1,3 +1,9 @@
+{{ config(
+    indexes=[
+      {'columns': ['artist_id'], 'unique': True},
+    ]
+) }}
+
 with artists as (
 
     select distinct

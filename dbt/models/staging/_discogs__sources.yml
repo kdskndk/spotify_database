@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: discogs
+    schema: source_data
+    description: "Album genre/style metadata fetched from the Discogs API by fetch_discogs_genres.py"
+    tables:
+      - name: discogs_album_genres
+        description: "One row per (album_name, artist_name) lookup attempt against Discogs."
+        loaded_at_field: fetched_at
+        columns:
+          - name: id
+            description: "Auto-incrementing source row id"
+            data_tests:
+              - unique
+              - not_null
+          - name: album_name
+            description: "Album name as it appears in dim_albums, used to join back"
+            data_tests:
+              - not_null
+          - name: match_status
+            description: "'matched' if a Discogs release was found, 'no_match' otherwise"
+            data_tests:
+              - not_null
