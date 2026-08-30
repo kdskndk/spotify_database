@@ -1,7 +1,7 @@
 with source as (
 
-    select * from {{ source('discogs', 'album_genres') }}
-    where match_status = 'matched'
+    select * from {{ source('discogs', 'discogs_album_genres') }}
+    where match_status != 'no_match'
 
 ),
 

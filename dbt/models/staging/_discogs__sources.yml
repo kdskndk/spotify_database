@@ -19,6 +19,6 @@ sources:
             data_tests:
               - not_null
           - name: match_status
-            description: "'matched' if a Discogs release was found, 'no_match' otherwise"
+            description: "Which fetch_discogs_genres.py strategy found this album: 'master', 'release', 'release_stripped', or 'discography'; 'no_match' if none did"
             data_tests:
               - not_null

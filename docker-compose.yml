@@ -44,6 +44,7 @@ services:
       context: ./dbt
       dockerfile: Dockerfile
     container_name: spotify_dbt
+    restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
@@ -57,10 +58,12 @@ services:
     volumes:
       - ./dbt:/app
     ports:
-      - "8080:8080"   # for `dbt docs serve`
-    # keeps the container running so you can `docker compose exec dbt bash` in
-    tty: true
-    stdin_open: true
+      - "8080:8080"
+    # Regenerates and serves the docs site on every container start, so
+    # http://localhost:8080 is available for as long as this container is
+    # running. This only refreshes the docs -- run
+    # `docker compose exec dbt dbt run` separately to (re)build models.
+    command: sh -c "dbt docs generate && dbt docs serve --port 8080 --host 0.0.0.0"
 
 volumes:
   pgdata:
